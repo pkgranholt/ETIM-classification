@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 # Import packages
+import matplotlib.pyplot as plt
 import os
 import pandas as pd
-import matplotlib.pyplot as plt
+# import seaborn as sns
 
 # Check/set wd
 os.getcwd()
@@ -11,27 +12,35 @@ os.getcwd()
 # Read file
 df = pd.read_csv('Resultat.csv', sep=';')
 
-# Some descriptive attributes
-print(df.head())
-print(df.columns)
-print(df.info())
-
 # Set the product number as index
 df = df.set_index('ProductNumber')
-df.head()
+
+# Only keep the necessary columns for the project and change the column names
+df = df[['ETIM klasse','Teknisk beskrivelse']]
+df.columns = ['ETIM_class','Technical_description']
+df['Elnr_group'] = df.index.astype(str).str[0:2]
+df = df[['Elnr_group','ETIM_class','Technical_description']]
+
+df.describe()
+
+# How many of each ETIM-class are there within each elnr group?
+ETIM_counts = df['ETIM_class'].value_counts()
+Elnr_counts = df['Elnr_group'].value_counts()
+
+grouped = pd.DataFrame(df.groupby(['Elnr_group', 'ETIM_class']).size())
+grouped.columns = ['counts']
+
+grouped = grouped.sort_values(['counts'],ascending=False).sort_index(axis=0,
+                             level='Elnr_group', ascending=True,
+                             sort_remaining=False)
+grouped
 
 
-print(df['Antall avvisninger'].value_counts(dropna=False))
-print(df.iloc[:,1].value_counts(dropna=False))
+# Visualisations
+grouped.plot(kind='bar')
 
-df.count()
 
-    
-# Does not work
-useless = df.count() == 0
-print(df[useless])
-df[useless == True].count()
-df[useless]
+plt.plot(ETIM_counts.value_counts(), 1814)
+plt.hist(ETIM_counts, 1814)
+plt.plot(Elnr_counts)
 
-# How to identify columns with all null values?
-df['D-Pak GS1 128'].isnull().sum() == 238049

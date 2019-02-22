@@ -8,5 +8,3 @@ We would like to make an assessment of how good our data is, and if there any pr
 
 ### 2. Finding the correct ETIM-class with machine learning
 It is up to our members and customers who own the products to correctly identify which product category each product belongs to. We would like to assist in this task, by creating a machine learning model which can recommend which ETIM (European Technical Information Model) class each product belongs in. This has proved to be a time-consuming process for some of our members, even if they already have lots of data stored about their products.
-
-### 3.
