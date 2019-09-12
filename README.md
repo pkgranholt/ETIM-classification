@@ -1,2 +1,2 @@
-# Python_Capstone
-All files related to the Intermediate Data Science with Python course
+# ETIM-classification
+All files related to the ETIM-classification project
